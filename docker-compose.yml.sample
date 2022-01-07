@@ -28,4 +28,7 @@ services:
     build: discordbot/.
     command: python3 discordbot/bot.py
     environment:
+      TOKEN: <YOUR TOKEN HERE>
+      PREFIX: "/"
+      OWNER_ID: <YOUR DISCORD USER ID HERE>
     restart: unless-stopped
