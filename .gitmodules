@@ -1,0 +1,6 @@
+[submodule "twitchbot"]
+	path = twitchbot
+	url = https://github.com/Psuedoo/twitchbot
+[submodule "discordbot"]
+	path = discordbot
+	url = https://github.com/Psuedoo/discordbot
