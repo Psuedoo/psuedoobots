@@ -10,25 +10,49 @@ services:
       POSTGRES_PASSWORD: dbpass
       POSTGRES_DB: admin
     ports:
-      - "5432:5432"
+      - 5432:5432
     restart: unless-stopped
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    restart: unless-stopped
+    links:
+      - db
     
   twitchbot:
     container_name: twitchbot
-    build: twitchbot/.
-    command: python3 twitchbot/bot.py
+    build: ./twitchbot
+    command: python3 bot.py
     environment:
-      TOKEN: <YOUR TOKEN HERE>
-      BOT_NICK: <BOT NICK>
-      CHANNELS: <YOUR CHANNELS HERE>
+      TOKEN: <TOKEN>
+      BOT_NICK: <BOT_NICK>
+      BOT_PREFIX: "!"
+      CHANNELS: <CHANNEL_ONE>;<CHANNEL_TWO>;
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: dbpass
+      SERVER_IP: db
+      POSTGRES_DB: admin
+    volumes:
+      - ./twitchbot:/app
     restart: unless-stopped
 
   discordbot:
     container_name: discordbot
-    build: discordbot/.
-    command: python3 discordbot/bot.py
+    build: ./discordbot
+    command: python3 bot.py
     environment:
-      TOKEN: <YOUR TOKEN HERE>
+      TOKEN: <TOKEN>
       PREFIX: "/"
-      OWNER_ID: <YOUR DISCORD USER ID HERE>
+      OWNER_ID: <OWNER_ID>
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: dbpass
+      SERVER_IP: db
+      POSTGRES_DB: admin
+    volumes:
+      - ./discordbot:/app
     restart: unless-stopped
